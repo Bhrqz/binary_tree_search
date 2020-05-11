@@ -134,6 +134,26 @@ class Tree
       end
     end
   end
+
+  def find(value)
+    node = @root
+    while node
+      if node.data < value && node.right_c
+        node = node.right_c
+      elsif node.data > value && node.left_c
+        node = node.left_c
+      elsif node.data == value
+        puts "This is the node with value #{value}: #{node}"
+        break
+      elsif (node.data > value && node.left_c==nil) || (node.data < value && node.left_c==nil)
+        puts "There is no node with value of #{value} in this Tree"
+        break
+      end 
+    end
+
+
+
+  end
 end
 
 
@@ -145,11 +165,11 @@ arr = Tree.new(arr1)
 
 arr.insert(10)
 
-arr.delete(22)
+arr.delete(64)
+
+arr.find(69)
 
 
-
-pp arr
 
 
 
