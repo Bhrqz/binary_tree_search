@@ -6,8 +6,8 @@ end
 
 
 class Node
-  attr_accessor :left_c, :right_c
-  attr_reader :data
+  attr_accessor :left_c, :right_c, :data
+  
   def initialize(data=nil)
     @data = data
     @left_c =nil
@@ -118,29 +118,34 @@ class Tree
         node = node.right_c
 
         #Erasing NODEs with TWO children
-      
-      elsif
-       
-
-
-      else
-        node = node.right_c
-      
+      elsif node.data == value && node.left_c && node.right_c
+        hold = node.right_c
+        target = node
+        while hold
+          if !hold.left_c
+            target = hold
+            delete(target.data)
+            node.data = target.data
+            break
+          elsif hold.left_c
+              hold = hold.left_c
+          end
+        end
       end
     end
-  
   end
 end
 
 
 
 
-arr1=[5,4,7,8,9,66,5,4,22,11,4,7,88]
+arr1=[5,4,7,8,9,66,5,4,22,6,4,7,88]
 
 arr = Tree.new(arr1)
 
 arr.insert(10)
-arr.delete(5)
+
+arr.delete(22)
 
 
 
