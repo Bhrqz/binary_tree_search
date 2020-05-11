@@ -150,10 +150,33 @@ class Tree
         break
       end 
     end
-
-
-
   end
+
+  def level_order 
+    queue = []
+    result = []
+    node = @root
+
+    #starting putting the root in queue
+    queue.push(node)
+    while node
+      
+    #check if got children and put them in the queue from left to right
+      queue.push(node.left_c) if node.left_c
+      queue.push(node.right_c) if node.right_c 
+            
+    #when finished the level push the nodes  into the Array and yield them (ha!)
+      result.push(queue.shift.data)
+      puts yield result.last if block_given?
+    #do it again
+      node = queue.first
+    end    
+    pp result if !block_given?
+  end
+
+  def inorder  
+  end
+
 end
 
 
@@ -168,6 +191,10 @@ arr.insert(10)
 arr.delete(64)
 
 arr.find(69)
+
+arr.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
+
+
 
 
 
