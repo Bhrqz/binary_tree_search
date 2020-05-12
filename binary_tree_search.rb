@@ -272,8 +272,11 @@ class Tree
   end
 
   def rebalance!
-    
-  
+    array = level_order()
+    pp "array es #{array}"
+    tree = build_tree(array)
+    pp tree
+   
   end
 
 end
@@ -299,9 +302,10 @@ arr.find(69)
 
 #arr.postorder { |node| puts "I am yieldin the node of value #{node} "}
  
-arr.depth(66)
+#arr.depth(66)
 
-arr.balanced?
+#arr.balanced?
 
+arr.rebalance!
 
 
