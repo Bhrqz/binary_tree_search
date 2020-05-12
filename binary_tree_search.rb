@@ -174,7 +174,106 @@ class Tree
     pp result if !block_given?
   end
 
-  def inorder  
+  def inorder(value=root)
+    #get the lower node
+    result = []
+    node = value
+      
+
+    recursive_in(node, result)
+     
+    pp result
+    result.each {|node| yield node}
+    
+  end
+
+  def recursive_in(node, result)
+    return result unless node
+    recursive_in(node.left_c, result) if node.left_c
+    result << node.data
+    recursive_in(node.right_c, result) if node.right_c
+  end
+
+  def preorder(value=root)
+    result = []
+    node = value
+
+
+    recursive_pre(node, result)
+
+    pp result
+    result.each {|node| yield node}
+
+  end
+
+  def recursive_pre(node, result)
+    return result unless node
+    result << node.data
+    recursive_pre(node.left_c, result) if node.left_c
+    recursive_pre(node.right_c, result) if node.right_c
+  
+  end
+
+  def postorder(value=root)
+    result = []
+    node = value
+    recursive_post(node, result)
+    pp result
+    result.each {|node| yield node}
+
+  end
+
+  def recursive_post(node, result)
+    return result unless node
+    recursive_post(node.left_c, result) if node.left_c
+    recursive_post(node.right_c, result) if node.right_c
+    result << node.data
+  end
+
+  def depth(value, node = @root)
+    depth = 0
+    while node
+      if node.data < value && node.right_c
+        node = node.right_c
+        depth += 1
+      elsif node.data > value && node.left_c
+        node = node.left_c
+        depth += 1
+      elsif node.data == value
+        pp depth
+        return depth
+
+      elsif (node.data > value && node.left_c==nil) || (node.data < value && node.left_c==nil)
+        puts "There is no node with value of #{value} in this Tree"
+        break
+      end 
+    end
+  end
+
+  def balanced?
+    node = @root
+    a_node = node.left_c
+    b_node = node.right_c
+
+    left_depth = leaf_node(a_node)
+    right_depth = leaf_node(b_node)
+
+    if (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) < 1) || (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) > -1)
+      puts "It is balanced"
+    else
+      puts "It is not balanced"
+    end
+  end
+
+  def leaf_node(node)
+    return node if !node.left_c && !node.right_c
+    leaf_node(node.left_c) if node.left_c
+    leaf_node(node.right_c) if node.right_c
+  end
+
+  def rebalance!
+    
+  
   end
 
 end
@@ -192,12 +291,17 @@ arr.delete(64)
 
 arr.find(69)
 
-arr.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
+#arr.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
 
+#arr.inorder { |node| puts "I am yieldin the node of value #{node} "}
 
+#arr.preorder { |node| puts "I am yieldin the node of value #{node} "}
 
+#arr.postorder { |node| puts "I am yieldin the node of value #{node} "}
+ 
+arr.depth(66)
 
-
+arr.balanced?
 
 
 
