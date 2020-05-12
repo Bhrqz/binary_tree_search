@@ -30,8 +30,8 @@ class Tree
     arr.uniq!
 
     pp arr
-
-    root = Node.new(arr[arr.length/2])
+    #TO INDUCE TO BALANCE PUT root = Node.new(arr[arr.length/2])
+    root = Node.new(arr.first)
     arr.each do |d| 
       d.to_i
       bilding(root, d)
@@ -250,6 +250,8 @@ class Tree
     end
   end
 
+#AHORA MISMO ESTAMOS LIDIANDO SOLO CON ESTE METHODO... EL DE BALANCED.
+
   def balanced?
     node = @root
     a_node = node.left_c
@@ -258,7 +260,8 @@ class Tree
     left_depth = leaf_node(a_node)
     right_depth = leaf_node(b_node)
 
-    if (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) < 1) || (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) > -1)
+
+    if (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) < 1) && (depth(left_depth.data, a_node) - depth(right_depth.data, b_node) > -1)
       puts "It is balanced"
     else
       puts "It is not balanced"
@@ -266,7 +269,7 @@ class Tree
   end
 
   def leaf_node(node)
-    return node if !node.left_c && !node.right_c
+    return node unless (node.left_c && node.right_c)
     leaf_node(node.left_c) if node.left_c
     leaf_node(node.right_c) if node.right_c
   end
@@ -282,30 +285,42 @@ class Tree
 end
 
 
+#1. Create a binary search tree from an array of random numbers (`Array.new(15) { rand(1..100) }`)
+array = Array.new(15) {rand(1..100)}
+
+tree = Tree.new(array)
+
+#2. Confirm that the tree is balanced by calling `#balanced?`
+tree.balanced?
 
 
-arr1=[5,4,7,8,9,66,5,4,22,6,4,7,88]
+#3. Print out all elements in level, pre, post, and in order
+tree.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
+tree.inorder { |node| puts "I am yieldin the node of value #{node} "}
+tree.preorder { |node| puts "I am yieldin the node of value #{node} "}
+tree.postorder { |node| puts "I am yieldin the node of value #{node} "}
 
-arr = Tree.new(arr1)
 
-arr.insert(10)
+#4. try to unbalance the tree by adding several numbers > 100
+10.times {tree.insert(rand(0..1000000))}
+pp tree
 
-arr.delete(64)
+#5. Confirm that the tree is unbalanced by calling `#balanced?`
+tree.balanced?
 
-arr.find(69)
 
-#arr.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
+#6. Balance the tree by calling `#rebalance!`
+tree.rebalance!
 
-#arr.inorder { |node| puts "I am yieldin the node of value #{node} "}
 
-#arr.preorder { |node| puts "I am yieldin the node of value #{node} "}
+#7. Confirm that the tree is balanced by calling `#balanced?`
+tree.balanced?
 
-#arr.postorder { |node| puts "I am yieldin the node of value #{node} "}
- 
-#arr.depth(66)
 
-#arr.balanced?
-
-arr.rebalance!
+#8. Print out all elements in level, pre, post, and in order
+tree.level_order {|node| "I'm yielding the data of this node which is: #{node} "}
+tree.inorder { |node| puts "I am yieldin the node of value #{node} "}
+tree.preorder { |node| puts "I am yieldin the node of value #{node} "}
+tree.postorder { |node| puts "I am yieldin the node of value #{node} "}
 
 
